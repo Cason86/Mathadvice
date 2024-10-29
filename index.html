@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assessment Platform</title>
+</head>
+<body>
+
+<h1>Student Assessment Platform</h1>
+
+<!-- Interest Survey -->
+<h2>Interest Survey</h2>
+<button onclick="window.location.href='interest_survey.html'">Take Interest Survey</button>
+
+<!-- Focus Survey -->
+<h2>Focus Survey</h2>
+<button onclick="window.location.href='attention_survey.html'">Take Focus Survey</button>
+
+<!-- Previous Score Input -->
+<h2>Enter Previous Score</h2>
+<label for="previousScore">Score (The average score on this exam is 85):</label>
+<input type="number" id="previousScore" value="85">
+<br>
+
+<!-- Generate Evaluation Button -->
+<h2>Generate Personalized Evaluation</h2>
+<button onclick="generateEvaluation()">Generate Evaluation</button>
+
+<!-- Display Evaluation Result -->
+<div id="evaluationResult" style="margin-top:20px;"></div>
+
+<!-- JavaScript Script -->
+<script>
+    // Generate Personalized Evaluation
+    function generateEvaluation() {
+        // 从 localStorage 获取兴趣和专注力结果
+        const interestLevel = localStorage.getItem("interestResult");
+        const focusLevel = localStorage.getItem("attentionResult");
+        const previousScore = parseFloat(document.getElementById("previousScore").value);
+        const averageScore = 85; // Default average score
+
+        // 检查是否已完成所有输入
+        if (!interestLevel || !focusLevel || isNaN(previousScore)) {
+            alert("Please make sure you have completed both surveys and entered a score.");
+            return;
+        }
+
+        // 生成评估
+        let evaluationMessage = "";
+        if (interestLevel === "High Interest" && focusLevel === "Medium Focus" && previousScore > averageScore) {
+            evaluationMessage = "High interest, medium focus, and above-average score - recommendation.";
+        } else if (interestLevel === "High Interest" && focusLevel === "Medium Focus" && previousScore <= averageScore) {
+            evaluationMessage = "High interest, medium focus, and at or below average score - recommendation.";
+        }
+        // 其他条件
+        else {
+            evaluationMessage = `${interestLevel}, ${focusLevel}, and ${previousScore > averageScore ? 'above' : 'at or below'} average score - recommendation.`;
+        }
+
+        // 显示评估结果
+        document.getElementById("evaluationResult").innerText = evaluationMessage;
+    }
+</script>
+
+</body>
+</html>
